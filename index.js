@@ -26,7 +26,7 @@ function download(url, msg) {
   TikChan.download(url)
     .then((results) => {
       results["no_wm"] && 
-      bot.sendVideo(msg.chat.id, results["no_wm"], { disable_notification: true, reply_to_message_id : msg.message_id, allow_sending_without_reply : true });
+      bot.sendVideo(msg.chat.id, results["no_wm"]);
     })
     .catch((err) => {
       console.log(err);
