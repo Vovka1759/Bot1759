@@ -2,7 +2,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const TelegramBot = require("node-telegram-bot-api");
-const dt = require("downloadTiktok")
+const dt = require("downloadtiktok")
 
 const token = process.env["BOT_TOKEN"];
 const instagramDl = require("@sasmeee/igdl");
