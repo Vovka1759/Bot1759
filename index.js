@@ -30,25 +30,18 @@ async function downloadTt(url, msg) {
   const result = await dt.downloadTiktok(url)
   const poppedResult = result.medias.pop();
   if (result.duration != 0) {
-    bot.sendVideo(msg.chat.id, result.medias[1].url, { caption: `Sent by ${msg.from.username}` });
+    bot.sendVideo(msg.chat.id, result.medias[1].url);
   }
   else {
     bot.sendMediaGroup(msg.chat.id,
       result.medias.map((e) => {
-        return { type: 'photo', "media": e.url, caption: result.medias[0] == e ? `Sent by ${msg.from.username}` : "" }
+        return { type: 'photo', "media": e.url}
       }))
       .then(
         () => {
           bot.sendAudio(msg.chat.id, poppedResult.url);
         });
   }
-  bot.deleteMessage(msg.chat.id, msg.message_id)
-    .then(() => {
-      console.log(`Message ${msg.message_id} deleted successfully`);
-    })
-    .catch((err) => {
-      console.error('Error deleting message:', err);
-    });
 }
 function downloadInsta(url, msg) {
   instagramDl(url)
