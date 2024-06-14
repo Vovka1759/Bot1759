@@ -2,7 +2,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const TelegramBot = require("node-telegram-bot-api");
-const TikChan = require("tikchan");
+const dt = require("downloadTiktok")
 
 const token = process.env["BOT_TOKEN"];
 const instagramDl = require("@sasmeee/igdl");
@@ -26,22 +26,36 @@ bot.on("message", (msg) => {
   }
 });
 
-function downloadTt(url, msg) {
-  TikChan.download(url)
-    .then((results) => {
-      results["no_wm"] && 
-      bot.sendVideo(msg.chat.id, results["no_wm"]);
+async function downloadTt(url, msg) {
+  const result = await dt.downloadTiktok(url)
+  const poppedResult = result.medias.pop();
+  if (result.duration != 0) {
+    bot.sendVideo(msg.chat.id, result.medias[1].url, { caption: `Sent by ${msg.from.username}` });
+  }
+  else {
+    bot.sendMediaGroup(msg.chat.id,
+      result.medias.map((e) => {
+        return { type: 'photo', "media": e.url, caption: result.medias[0] == e ? `Sent by ${msg.from.username}` : "" }
+      }))
+      .then(
+        () => {
+          bot.sendAudio(msg.chat.id, poppedResult.url);
+        });
+  }
+  bot.deleteMessage(msg.chat.id, msg.message_id)
+    .then(() => {
+      console.log(`Message ${msg.message_id} deleted successfully`);
     })
     .catch((err) => {
-      console.log(err);
+      console.error('Error deleting message:', err);
     });
 }
 function downloadInsta(url, msg) {
   instagramDl(url)
-  .then((results) => {
-    bot.sendMediaGroup(msg.chat.id, results.map((e) => { return {type: "video", "media" : e.download_link}; }));
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+    .then((results) => {
+      bot.sendMediaGroup(msg.chat.id, results.map((e) => { return { type: "video", "media": e.download_link }; }));
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
