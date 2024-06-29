@@ -18,7 +18,7 @@ docker buildx build --platform linux/amd64 -t $DOCKER_IMAGE_NAME:$next_tag -t $D
 docker save $DOCKER_IMAGE_NAME:latest > $DOCKER_IMAGE_NAME.tar
 
 ssh -i $SSH_KEY_PATH $SSH_USER@$SSH_HOST << EOF
-  sudo mkdir -p '$REMOTE_DIR'
+  mkdir -p '$REMOTE_DIR'
   sudo rm -f '$REMOTE_DIR/$DOCKER_IMAGE_NAME.tar'
 EOF
 
