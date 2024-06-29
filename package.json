@@ -1,14 +1,12 @@
 {
-  "name": "nodejs",
+  "name": "Bot1759",
   "version": "1.0.0",
-  "description": "",
+  "description": "Telegram bot for downloadings tiktoks and reels",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Vovka1759",
   "dependencies": {
     "@sasmeee/igdl": "^1.0.0",
     "@types/node": "^18.0.6",
